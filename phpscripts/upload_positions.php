@@ -2,6 +2,8 @@
 include 'db_connect.php';
 
 $json = $_POST['data'];
+$session_id = isset($_POST['session_id']) ? $_POST['session_id'] : 0;
+
 $data = json_decode($json, true);
 
 if (isset($data['items'])) {
@@ -21,6 +23,14 @@ if (isset($data['items'])) {
     }
     echo "Batch uploaded";
     $stmt->close();
+	
+	if ($session_id != 0) {
+        $update_stmt = $conn->prepare("UPDATE Game_Sessions SET end_time = NOW() WHERE session_id = ?");
+        $update_stmt->bind_param("i", $session_id);
+        $update_stmt->execute();
+        $update_stmt->close();
+    }
+	
 } else {
     echo "No items found";
 }

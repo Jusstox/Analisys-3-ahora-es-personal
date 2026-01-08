@@ -40,7 +40,6 @@ public class AnalyticsDamageListener : MonoBehaviour, IMessageReceiver
                 }
 
                 AnalyticsManager.Instance.RecordDeath(true, idToSend, transform.position);
-                AnalyticsManager.Instance.EndRun(false);
             }
             else
             {
