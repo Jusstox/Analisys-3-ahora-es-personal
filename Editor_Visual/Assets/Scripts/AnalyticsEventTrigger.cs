@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class AnalyticsEventTrigger : MonoBehaviour
 {
@@ -15,32 +16,43 @@ public class AnalyticsEventTrigger : MonoBehaviour
 
     public int healAmount = 1;
 
-    private bool hasTriggered = false;
-
-    void Start()
-    {
-        Debug.Log($"[System Check] WinZone Script is ACTIVE on object: {gameObject.name}");
-    }
+    private bool isLocked = false;
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log($"[AnalyticsTrigger] Something entered: {other.name} (Tag: {other.tag})");
+        if (isLocked) return;
 
         if (other.CompareTag("Player"))
         {
-            if (hasTriggered && (eventType == AnalyticsType.Checkpoint || eventType == AnalyticsType.Heal || eventType == AnalyticsType.Key))
-                return;
+            isLocked = true;
 
             SendEvent();
 
-            if (eventType == AnalyticsType.Checkpoint || eventType == AnalyticsType.Heal || eventType == AnalyticsType.Key)
-                hasTriggered = true;
+            HandleCleanup();
         }
     }
 
-    public void ManualTrigger()
+    private void HandleCleanup()
     {
-        SendEvent();
+        switch (eventType)
+        {
+            case AnalyticsType.Key:
+            case AnalyticsType.Heal:
+            case AnalyticsType.Button:
+            case AnalyticsType.BreakBox:
+                Destroy(this);
+                break;
+
+            case AnalyticsType.Checkpoint:
+                StartCoroutine(ResetCooldown(10.0f));
+                break;
+        }
+    }
+
+    private IEnumerator ResetCooldown(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        isLocked = false;
     }
 
     private void SendEvent()
@@ -51,7 +63,6 @@ public class AnalyticsEventTrigger : MonoBehaviour
         {
             case AnalyticsType.Key:
                 AnalyticsManager.Instance.RecordKey(transform.position);
-                Destroy(this);
                 break;
             case AnalyticsType.Button:
                 AnalyticsManager.Instance.RecordButton(transform.position);
@@ -64,7 +75,6 @@ public class AnalyticsEventTrigger : MonoBehaviour
                 break;
             case AnalyticsType.Heal:
                 AnalyticsManager.Instance.RecordHeal(healAmount, "HealthPickup", transform.position);
-                Destroy(this);
                 break;
         }
     }

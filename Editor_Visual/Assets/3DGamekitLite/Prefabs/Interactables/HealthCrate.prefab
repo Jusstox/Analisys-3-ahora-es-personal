@@ -5306,7 +5306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4fe70657e47af468645a0b12c706d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnalyticsEventTrigger
-  eventType: 5
+  eventType: 4
   healAmount: 1
 --- !u!1 &1879672311206784
 GameObject:

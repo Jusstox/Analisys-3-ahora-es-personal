@@ -79,5 +79,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb4fe70657e47af468645a0b12c706d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnalyticsEventTrigger
-  eventType: 4
+  eventType: 3
   healAmount: 1
