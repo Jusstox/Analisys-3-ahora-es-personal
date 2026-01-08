@@ -5382,3 +5382,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AnalyticsEventTrigger
   eventType: 2
+  healAmount: 1

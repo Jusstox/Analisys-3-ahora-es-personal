@@ -9,25 +9,51 @@ public class AnalyticsEventTrigger : MonoBehaviour
         Button,
         BreakBox,
         Checkpoint,
-        Heal,
+        Heal
     }
 
     public AnalyticsType eventType;
-
     public int healAmount = 1;
 
     private bool isLocked = false;
+    private float startupTime;
 
-    void OnTriggerEnter(Collider other)
+    void Start()
+    {
+        startupTime = Time.time;
+    }
+
+    public void ManualTrigger()
     {
         if (isLocked) return;
 
-        if (other.CompareTag("Player"))
+        Debug.Log($"[Analytics] Manual Trigger Activated on {gameObject.name}");
+        isLocked = true;
+        SendEvent();
+        HandleCleanup();
+    }
+
+    void OnCollisionEnter(Collision collision) { ProcessHit(collision.gameObject); }
+    void OnTriggerEnter(Collider other) { ProcessHit(other.gameObject); }
+
+    private void ProcessHit(GameObject obj)
+    {
+        if (Time.timeSinceLevelLoad < 0.5f) return;
+
+        if (isLocked) return;
+
+        string name = obj.name.ToLower();
+        if (name.Contains("floor") || name.Contains("ground") || name.Contains("tile") || name.Contains("terrain"))
         {
+            return;
+        }
+
+        if (!obj.isStatic && (obj.CompareTag("Player") || obj.CompareTag("Untagged")))
+        {
+            Debug.Log($"[Analytics] Hit Detected by: {obj.name}");
+
             isLocked = true;
-
             SendEvent();
-
             HandleCleanup();
         }
     }
@@ -42,9 +68,8 @@ public class AnalyticsEventTrigger : MonoBehaviour
             case AnalyticsType.BreakBox:
                 Destroy(this);
                 break;
-
             case AnalyticsType.Checkpoint:
-                StartCoroutine(ResetCooldown(10.0f));
+                StartCoroutine(ResetCooldown(5.0f));
                 break;
         }
     }
