@@ -38,9 +38,9 @@ public class VisualizationEditor : Editor
         m.restartFilter = (VisualizationManager.RestartFilter)EditorGUILayout.EnumPopup("Restarts:", m.restartFilter);
 
         GUILayout.Label("Exclusions", EditorStyles.miniBoldLabel);
-        m.onlyRunsWithNoDeaths = EditorGUILayout.Toggle("Pacifist (No Death)", m.onlyRunsWithNoDeaths);
+        m.onlyRunsWithNoDeaths = EditorGUILayout.Toggle("Immortal (No Death)", m.onlyRunsWithNoDeaths);
         m.onlyRunsWithNoDamage = EditorGUILayout.Toggle("Perfect (No Hit)", m.onlyRunsWithNoDamage);
-        m.onlyRunsWithNoKills = EditorGUILayout.Toggle("No Kills", m.onlyRunsWithNoKills);
+        m.onlyRunsWithNoKills = EditorGUILayout.Toggle("Pacifist (No Kills)", m.onlyRunsWithNoKills);
 
         GUILayout.Space(10);
         GUILayout.Label("EVENT LAYERS", EditorStyles.boldLabel);
