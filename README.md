@@ -96,6 +96,3 @@ To ensure performance and storage efficiency, we use a distributed sampling logi
 * **Visualization & Editor Tool:** [Marc Avante]
 * **Backend & SQL:** [Pol Celaya and Justo Tiscornia]
 * **Sampling Scripts:** [Marc Avante, Andrea Doña and Joan Marques]
-* **Visualization & Editor Tool:** [Name]
-* **Backend & SQL:** [Name]
-* **Sampling Scripts:** [Name]
